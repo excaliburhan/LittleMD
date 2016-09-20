@@ -9,7 +9,7 @@ import $ from 'jquery'
 import marked from 'marked'
 
 export default {
-  reload() {
+  reload() { // sync preview
     marked.setOptions({
       gfm: true,
       tables: true,
@@ -22,7 +22,31 @@ export default {
     const preview = $('#preview')
     const editorDom = $('#editor .editorArea')
     const text = editorDom.val()
-    console.log(marked(text))
     preview.html(marked(text))
+  },
+
+  loadText(text) {
+    const editorDom = $('#editor .editorArea')
+    editorDom.val(text)
+    this.reload()
+  },
+
+  loadFile(file) {
+    const fs = require('fs')
+    fs.readFile(file, 'utf8', (err, data) => {
+      if (err) {
+        console.log(err)
+      }
+      this.loadText(data)
+    })
+  },
+
+  chooseFile(selector, callback) {
+    const chooser = $(selector)
+    chooser.change(() => {
+      callback(chooser.val())
+    })
+
+    chooser.trigger('click')
   },
 }

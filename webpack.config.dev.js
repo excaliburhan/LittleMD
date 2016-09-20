@@ -28,7 +28,9 @@ module.exports = {
 
   // 解析配置
   resolve: {
-    alias: [], // alias配置, 配置的内容可以直接require
+    alias: {
+      // jquery: path.join(__dirname, 'src/vendors/jquery-3.1.0.min.js'),
+    }, // alias配置, 配置的内容可以直接require
     extensions: ['', '.js', '.jsx'], // 当requrie的模块找不到时, 添加这些后缀
   },
 
@@ -36,7 +38,6 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(), // 热加载
     new webpack.DefinePlugin({ // 定义全局变量
-      $: 'jquery',
       DEBUG: true,
     }),
     new webpack.optimize.OccurenceOrderPlugin(), // 根据引用次数排序ids, 压缩文件大小
@@ -68,4 +69,9 @@ module.exports = {
 
   // postcss配置
   postcss: () => [precss, autoprefixer],
+
+  node: {
+    fs: 'empty',
+  },
+  // target: 'node-webkit',
 }

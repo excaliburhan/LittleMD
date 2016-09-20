@@ -5,9 +5,14 @@
  * @ entry app
  */
 
-// import $ from 'jquery'
-// import gui from 'nw.gui'
 import main from './main.js'
+import menu from './menu.js'
 import '../css/index.css'
 
+// debug
+// const gui = window.require('nw.gui')
+// const win = gui.Window.get()
+// win.showDevTools()
+
 main.init()
+menu.initMenu()

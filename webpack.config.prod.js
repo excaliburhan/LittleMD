@@ -38,7 +38,6 @@ module.exports = {
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
       },
-      $: 'jquery',
       DEBUG: false,
     }),
     new webpack.optimize.OccurenceOrderPlugin(), // 根据引用次数排序ids, 压缩文件大小
@@ -81,4 +80,6 @@ module.exports = {
 
   // postcss配置
   postcss: () => [precss, autoprefixer],
+
+  target: 'node-webkit',
 }

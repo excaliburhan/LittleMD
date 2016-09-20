@@ -1,15 +1,15 @@
 {
   "extends": "airbnb",
   "env": {
-    "commonjs": true
+    "commonjs": true,
+    "node": true
   },
   "ecmaFeatures": {
     "es6": true
   },
   "globals": {
     "DEBUG": true,
-    "describe": true,
-    "it": true
+    "window": true
   },
   "plugins": [
     "html"
