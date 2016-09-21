@@ -6,7 +6,6 @@
  */
 
 import main from './main.js'
-import menu from './menu.js'
 import '../css/index.css'
 
 // debug
@@ -15,4 +14,3 @@ import '../css/index.css'
 // win.showDevTools()
 
 main.init()
-menu.initMenu()

@@ -36,7 +36,7 @@ export default {
       click: () => {
         editor.chooseFile('#saveFile', filename => {
           const fs = require('fs')
-          const editorDom = $('#editor .editorArea')
+          const editorDom = $('#editor')
           fs.writeFile(filename, editorDom.val(), err => {
             if (err) {
               console.log(err)

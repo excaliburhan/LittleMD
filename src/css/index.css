@@ -20,7 +20,7 @@ body {
   overflow: hidden;
 }
 
-#editor {
+#editorArea {
   float: left;
   width: 50%;
   height: 100%;

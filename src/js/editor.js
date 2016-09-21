@@ -20,13 +20,13 @@ export default {
       smartypants: false,
     })
     const preview = $('#preview')
-    const editorDom = $('#editor .editorArea')
+    const editorDom = $('#editor')
     const text = editorDom.val()
     preview.html(marked(text))
   },
 
   loadText(text) {
-    const editorDom = $('#editor .editorArea')
+    const editorDom = $('#editor')
     editorDom.val(text)
     this.reload()
   },
