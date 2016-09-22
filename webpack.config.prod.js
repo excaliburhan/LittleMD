@@ -28,7 +28,10 @@ module.exports = {
 
   // 解析配置
   resolve: {
-    alias: [], // alias配置, 配置的内容可以直接require
+    alias: {
+      jquery: path.join(__dirname, 'vendors/jquery-3.1.0.min.js'),
+      'highlight.js': path.join(__dirname, 'vendors/highlight.pack.js'),
+    }, // alias配置, 配置的内容可以直接require
     extensions: ['', '.js', '.jsx'], // 当requrie的模块找不到时, 添加这些后缀
   },
 
@@ -57,6 +60,7 @@ module.exports = {
 
   // 模块设置
   module: {
+    noParse: ['/vendors/'],
     loaders: [
       {
         test: /\.(js|jsx)$/,
@@ -76,6 +80,12 @@ module.exports = {
         loader: 'url?limit=10000',
       },
     ],
+  },
+
+  // 外部依赖
+  externals: {
+    jquery: true,
+    'highlight.js': true,
   },
 
   // postcss配置

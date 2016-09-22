@@ -2,9 +2,13 @@
 <html>
 <head>
   <title>LittleMD</title>
+  <script src="/vendors/jquery-3.1.0.min.js"></script>
+  <script src="/vendors/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
   <script src='/dist/bundle.js'></script>
 </head>
 <body>
+  <div class="test">1</div>
   <div id='body'>
     <div id='editorArea'>
       <textarea id='editor'></textarea>
@@ -12,6 +16,6 @@
     <div id='preview'></div>
   </div>
   <input style='display: none;' id='openFile' type='file' />
-  <input style='display: none;' id='saveFile' type='file' nwsaveas="file.md" />
+  <input style='display: none;' id='saveFile' type='file' nwsaveas="LittleMD.md" />
 </body>
 </html>

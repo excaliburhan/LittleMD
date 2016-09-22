@@ -9,7 +9,11 @@
   },
   "globals": {
     "DEBUG": true,
-    "window": true
+    "nw": true,
+    "window": true,
+    "document": true,
+    "$": true,
+    "hljs": true,
   },
   "plugins": [
     "html"

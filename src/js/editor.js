@@ -5,12 +5,26 @@
  * @ editor
  */
 
-import $ from 'jquery'
 import marked from 'marked'
 
+const gui = window.require('nw.gui')
+
 export default {
-  reload() { // sync preview
+  // func
+  openUrl(url) {
+    gui.Shell.openExternal(url)
+  },
+  openItem(path) {
+    gui.Shell.openItem(path)
+  },
+  showItemInFolder(path) {
+    gui.Shell.showItemInFolder(path)
+  },
+
+  // sync preview
+  reload() {
     marked.setOptions({
+      highlight: code => hljs.highlightAuto(code).value,
       gfm: true,
       tables: true,
       breaks: false,
@@ -23,6 +37,7 @@ export default {
     const editorDom = $('#editor')
     const text = editorDom.val()
     preview.html(marked(text))
+    $('.test').text(preview.html())
   },
 
   loadText(text) {

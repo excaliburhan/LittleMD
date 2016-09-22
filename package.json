@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node devServer.js",
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
+    "build:test": "npm run clean && npm run build:webpack && sh run.sh",
     "build": "npm run clean && npm run build:webpack",
     "clean": "rimraf dist"
   },
@@ -19,8 +20,8 @@
     "toolbar": true,
     "frame": true,
     "position": "center",
-    "width": 800,
-    "height": 600
+    "width": 1000,
+    "height": 800
   },
   "webkit": {
     "plugin": true
@@ -52,6 +53,7 @@
     "webpack-hot-middleware": "^2.12.2"
   },
   "dependencies": {
+    "highlight.js": "^9.7.0",
     "jquery": "^3.1.0",
     "marked": "^0.3.6",
     "taboverride": "^4.0.3"
