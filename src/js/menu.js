@@ -6,8 +6,11 @@
  */
 
 import editor from './editor.js'
+import i18n from './i18n.js'
 
 const gui = window.require('nw.gui')
+const lang = navigator.language || 'en-US'
+const langFileMenu = i18n[lang].fileMenu
 let isSaved = false // tag file status
 let filePath = null
 
@@ -33,7 +36,6 @@ export default {
           isSaved = false // err might be file deleted
         } else {
           isSaved = true
-          console.log('file saved')
         }
       })
     } else { // do saveAs
@@ -44,7 +46,6 @@ export default {
           } else {
             isSaved = true
             filePath = filename
-            console.log('file saved as another')
           }
         })
       })
@@ -62,25 +63,25 @@ export default {
 
     menubar.createMacBuiltin('LittleMD') // for Mac
     fileMenu.append(new gui.MenuItem({
-      label: 'New File',
+      label: langFileMenu.newLabel,
       click: this.newFile,
       modifiers: 'cmd',
       key: 'n',
     }))
     fileMenu.append(new gui.MenuItem({
-      label: 'Open...',
+      label: langFileMenu.openLabel,
       click: this.openFile,
       modifiers: 'cmd',
       key: 'o',
     }))
     fileMenu.append(new gui.MenuItem({
-      label: 'Save',
+      label: langFileMenu.saveLabel,
       click: this.saveFile,
       modifiers: 'cmd',
       key: 's',
     }))
     fileMenu.append(new gui.MenuItem({
-      label: 'Save As...',
+      label: langFileMenu.saveAsLabel,
       click: () => {
         this.saveFile(true)
       },
@@ -88,13 +89,25 @@ export default {
       key: 's',
     }))
     fileMenu.append(new gui.MenuItem({
-      label: 'Quit',
-      click: this.quit,
+      label: langFileMenu.exportPDFLabel,
+      click: () => {},
       modifiers: 'cmd',
-      key: 'q',
+      key: 'e',
     }))
+    fileMenu.append(new gui.MenuItem({
+      label: langFileMenu.exportHTMLLabel,
+      click: () => {},
+      modifiers: 'cmd+shift',
+      key: 'e',
+    }))
+    // fileMenu.append(new gui.MenuItem({
+    //   label: langFileMenu.quitLabel,
+    //   click: this.quit,
+    //   modifiers: 'cmd',
+    //   key: 'q',
+    // }))
     menubar.append(new gui.MenuItem({
-      label: 'File',
+      label: langFileMenu.fileLabel,
       submenu: fileMenu,
     }))
     win.menu = menubar

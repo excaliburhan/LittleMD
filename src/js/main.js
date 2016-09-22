@@ -59,7 +59,7 @@ export default {
       divs.on('scroll', this.scrollSync)
 
       // tabOverride
-      tabOverride.tabSize(4).set(window.document.getElementById('editor'))
+      tabOverride.tabSize(4).set(document.getElementById('editor'))
     })
   },
 }
