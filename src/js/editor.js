@@ -37,7 +37,6 @@ export default {
     const editorDom = $('#editor')
     const text = editorDom.val()
     preview.html(marked(text))
-    $('.test').text(preview.html())
   },
 
   loadText(text) {

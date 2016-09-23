@@ -50,7 +50,6 @@ export default {
         editor.reload()
       })
       bodyDom.on('click', 'a', e => {
-        $('.test').text('1')
         e.preventDefault()
         editor.openUrl(e.target.href)
       })

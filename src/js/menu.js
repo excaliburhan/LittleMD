@@ -16,15 +16,23 @@ const lang = navigator.language || 'en-US'
 const langFileMenu = i18n[lang].fileMenu
 let isSaved = false // tag file status
 let currentFilePath = null // current filepath
-const templatePath = path.join(process.cwd(), './template.html')
-let templateHtml = null
+const htmlTmpPath = path.join(process.cwd(), './htmlTmp.html')
+let htmlTmpData = null
+const pdfTmpPath = path.join(process.cwd(), './pdfTmp.html')
+let pdfTmpData = null
 
 // get template context
-fs.readFile(templatePath, 'utf8', (err, data) => {
+fs.readFile(htmlTmpPath, 'utf8', (err, data) => {
   if (err) {
     console.log(err)
   }
-  templateHtml = data
+  htmlTmpData = data
+})
+fs.readFile(pdfTmpPath, 'utf8', (err, data) => {
+  if (err) {
+    console.log(err)
+  }
+  pdfTmpData = data
 })
 
 export default {
@@ -71,9 +79,9 @@ export default {
     const previewDom = $('#preview')
     const pdfTitle = $('#pdfFile').attr('nwsaveas').split('.')[0]
     let html = ''
-    if (!templateHtml) return
-    html = templateHtml.replace(/reg-template/, pdfTitle)
-    html = templateHtml.replace(/reg-preview/, previewDom.html())
+    if (!pdfTmpData) return
+    html = pdfTmpData.replace(/reg-template/, pdfTitle)
+    html = html.replace(/reg-preview/, previewDom.html())
     editor.chooseFile('#pdfFile', filename => {
       const options = {
         html,
@@ -83,7 +91,6 @@ export default {
         if (err2) {
           console.log(err2)
         }
-        $('.test').text(html)
         result.toFile(filename, () => {
           // $('.test').text('导出成功')
         })
@@ -94,9 +101,9 @@ export default {
     const previewDom = $('#preview')
     const htmlTitle = $('#htmlFile').attr('nwsaveas').split('.')[0]
     let html = ''
-    if (!templateHtml) return
-    html = templateHtml.replace(/reg-template/, htmlTitle)
-    html = templateHtml.replace(/reg-preview/, previewDom.html())
+    if (!htmlTmpData) return
+    html = htmlTmpData.replace(/reg-template/, htmlTitle)
+    html = html.replace(/reg-preview/, previewDom.html())
     editor.chooseFile('#htmlFile', filename => {
       fs.writeFile(filename, html, err => {
         if (err) {
