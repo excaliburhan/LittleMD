@@ -9,6 +9,7 @@ const path = require('path')
 const webpack = require('webpack')
 const precss = require('precss')
 const autoprefixer = require('autoprefixer')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   // dev配置
@@ -37,6 +38,7 @@ module.exports = {
 
   // 插件配置
   plugins: [
+    new ExtractTextPlugin('[name].css'),
     new webpack.DefinePlugin({ // 定义全局变量
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
@@ -69,7 +71,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loaders: ['style', 'css', 'postcss'],
+        loader: ExtractTextPlugin.extract(['css']),
+      },
+      {
+        test: /\.(pcss|postcss)$/,
+        loader: ExtractTextPlugin.extract(['css', 'postcss']),
+        // loaders: ['style', 'css', 'postcss'],
       },
       {
         test: /\.(png|jpg|gif|svg)$/,

@@ -9,28 +9,43 @@ import editor from './editor.js'
 import i18n from './i18n.js'
 
 const gui = window.require('nw.gui')
+const path = require('path')
+const fs = require('fs')
+const pdf = require('phantom-html2pdf')
 const lang = navigator.language || 'en-US'
 const langFileMenu = i18n[lang].fileMenu
 let isSaved = false // tag file status
-let filePath = null
+let currentFilePath = null // current filepath
+const templatePath = path.join(process.cwd(), './template.html')
+let templateHtml = null
+
+// get template context
+fs.readFile(templatePath, 'utf8', (err, data) => {
+  if (err) {
+    console.log(err)
+  }
+  templateHtml = data
+})
 
 export default {
   // func
   newFile() {
+    editor.setTitle('LittleMD.md')
     editor.loadText('')
+    isSaved = true
+    currentFilePath = null
   },
   openFile() {
     editor.chooseFile('#openFile', filename => {
       editor.loadFile(filename)
       isSaved = true
-      filePath = filename
+      currentFilePath = filename
     })
   },
   saveFile(forceSaveAs) {
-    const fs = require('fs')
     const editorDom = $('#editor')
     if (isSaved && !forceSaveAs) { // do save
-      fs.writeFile(filePath, editorDom.val(), err => {
+      fs.writeFile(currentFilePath, editorDom.val(), err => {
         if (err) {
           console.log(err)
           isSaved = false // err might be file deleted
@@ -44,12 +59,51 @@ export default {
           if (err) {
             console.log(err)
           } else {
+            editor.setTitle(filename)
             isSaved = true
-            filePath = filename
+            currentFilePath = filename
           }
         })
       })
     }
+  },
+  exportPDF() {
+    const previewDom = $('#preview')
+    const pdfTitle = $('#pdfFile').attr('nwsaveas').split('.')[0]
+    let html = ''
+    if (!templateHtml) return
+    html = templateHtml.replace(/reg-template/, pdfTitle)
+    html = templateHtml.replace(/reg-preview/, previewDom.html())
+    editor.chooseFile('#pdfFile', filename => {
+      const options = {
+        html,
+        deleteOnAction: true,
+      }
+      pdf.convert(options, (err2, result) => {
+        if (err2) {
+          console.log(err2)
+        }
+        $('.test').text(html)
+        result.toFile(filename, () => {
+          // $('.test').text('导出成功')
+        })
+      })
+    })
+  },
+  exportHTMl() {
+    const previewDom = $('#preview')
+    const htmlTitle = $('#htmlFile').attr('nwsaveas').split('.')[0]
+    let html = ''
+    if (!templateHtml) return
+    html = templateHtml.replace(/reg-template/, htmlTitle)
+    html = templateHtml.replace(/reg-preview/, previewDom.html())
+    editor.chooseFile('#htmlFile', filename => {
+      fs.writeFile(filename, html, err => {
+        if (err) {
+          console.log(err)
+        }
+      })
+    })
   },
   quit() {
     gui.App.quit()
@@ -90,13 +144,13 @@ export default {
     }))
     fileMenu.append(new gui.MenuItem({
       label: langFileMenu.exportPDFLabel,
-      click: () => {},
+      click: this.exportPDF,
       modifiers: 'cmd',
       key: 'e',
     }))
     fileMenu.append(new gui.MenuItem({
       label: langFileMenu.exportHTMLLabel,
-      click: () => {},
+      click: this.exportHTMl,
       modifiers: 'cmd+shift',
       key: 'e',
     }))
@@ -111,42 +165,5 @@ export default {
       submenu: fileMenu,
     }))
     win.menu = menubar
-  },
-
-  // init shortcut
-  initShortcut() {
-    const keyMaps = [
-      {
-        key: 'Command+N',
-        active: this.newFile,
-        failed: err => console.log(err),
-      },
-      {
-        key: 'Command+O',
-        active: this.openFile,
-        failed: err => console.log(err),
-      },
-      {
-        key: 'Command+S',
-        active: this.saveFile,
-        failed: err => console.log(err),
-      },
-      {
-        key: 'Command+Shift+S',
-        active: () => {
-          this.saveFile(true)
-        },
-        failed: err => console.log(err),
-      },
-      // {
-      //   key: 'Command+Q',
-      //   active: this.quit,
-      //   failed: err => console.log(err),
-      // },
-    ]
-    keyMaps.forEach(option => {
-      const shortcut = new nw.Shortcut(option)
-      nw.App.registerGlobalHotKey(shortcut)
-    })
   },
 }

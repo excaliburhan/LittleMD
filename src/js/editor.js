@@ -52,16 +52,29 @@ export default {
       if (err) {
         console.log(err)
       }
+      this.setTitle(file)
       this.loadText(data)
     })
   },
 
-  chooseFile(selector, callback) {
+  chooseFile(selector, callback) { // save & export
     const chooser = $(selector)
     chooser.change(() => {
       callback(chooser.val())
     })
 
     chooser.trigger('click')
+  },
+
+  // set title & filename
+  setTitle(filename) {
+    const fileArr = filename.split('/')
+    const fileTitle = fileArr[fileArr.length - 1] || 'LittleMD.md'
+    const pdfTitle = fileTitle.replace(/.\w+$/, '.pdf')
+    const htmlTitle = fileTitle.replace(/.\w+$/, '.html')
+    $('title').html(fileTitle)
+    $('#saveFile').attr('nwsaveas', fileTitle)
+    $('#pdfFile').attr('nwsaveas', pdfTitle)
+    $('#htmlFile').attr('nwsaveas', htmlTitle)
   },
 }

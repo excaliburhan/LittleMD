@@ -25,7 +25,6 @@ export default {
 
   init() {
     menu.initMenu()
-    menu.initShortcut()
     $(() => {
       const bodyDom = $('body')
       const editorDom = $('#editor')
@@ -51,6 +50,7 @@ export default {
         editor.reload()
       })
       bodyDom.on('click', 'a', e => {
+        $('.test').text('1')
         e.preventDefault()
         editor.openUrl(e.target.href)
       })

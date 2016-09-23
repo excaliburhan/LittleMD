@@ -56,6 +56,8 @@
     "highlight.js": "^9.7.0",
     "jquery": "^3.1.0",
     "marked": "^0.3.6",
+    "phantom-html2pdf": "^3.0.0",
+    "phantomjs-prebuilt": "^2.1.12",
     "taboverride": "^4.0.3"
   }
 }

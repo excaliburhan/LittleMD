@@ -6,8 +6,9 @@
  */
 
 import main from './main.js'
-import '../css/index.css'
 import '../css/highlight/default.css'
+import '../css/index.pcss'
+import '../css/preview.pcss'
 
 // debug
 // const gui = window.require('nw.gui')
