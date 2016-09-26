@@ -9,16 +9,16 @@ import editor from './editor.js'
 import i18n from './i18n.js'
 
 const gui = window.require('nw.gui')
-const path = require('path')
+// const path = require('path')
 const fs = require('fs')
 const pdf = require('phantom-html2pdf')
 const lang = navigator.language || 'en-US'
 const langFileMenu = i18n[lang].fileMenu
 let isSaved = false // tag file status
 let currentFilePath = null // current filepath
-const htmlTmpPath = path.join(process.cwd(), './htmlTmp.html')
+const htmlTmpPath = './htmlTmp.html'
 let htmlTmpData = null
-const pdfTmpPath = path.join(process.cwd(), './pdfTmp.html')
+const pdfTmpPath = './pdfTmp.html'
 let pdfTmpData = null
 
 // get template context

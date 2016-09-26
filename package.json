@@ -4,11 +4,12 @@
   "version": "0.0.1",
   "description": "a markdown app via nwjs",
   "scripts": {
+    "clean": "rimraf dist",
     "dev": "node devServer.js",
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
     "build:test": "npm run clean && npm run build:webpack && sh run.sh",
     "build": "npm run clean && npm run build:webpack",
-    "clean": "rimraf dist"
+    "pack": "rimraf build && node build.js"
   },
   "keywords": [
     "nwjs",
@@ -45,6 +46,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "koa": "^1.2.2",
     "koa-webpack-dev": "^1.0.5",
+    "nw-builder": "^3.1.0",
     "precss": "^1.4.0",
     "rimraf": "^2.5.4",
     "webpack": "^1.13.2",
