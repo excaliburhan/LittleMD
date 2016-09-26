@@ -6,6 +6,7 @@
  */
 
 import marked from 'marked'
+import emojify from 'emojify.js'
 
 const gui = window.require('nw.gui')
 
@@ -37,6 +38,8 @@ export default {
     const editorDom = $('#editor')
     const text = editorDom.val()
     preview.html(marked(text))
+    emojify.run()
+    // $('.test').text(preview.html())
   },
 
   loadText(text) {

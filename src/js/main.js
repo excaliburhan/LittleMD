@@ -9,53 +9,62 @@ import tabOverride from 'taboverride'
 import editor from './editor.js'
 import menu from './menu.js'
 
+const fs = require('fs')
 const gui = window.require('nw.gui')
+let scrollTimer = null
 
 export default {
   // func
   scrollSync() {
+    scrollTimer && clearTimeout(scrollTimer)
     const divs = $('#editor, #preview')
     const other = divs.not(this).off('scroll').get(0)
     const percentage = this.scrollTop / (this.scrollHeight - this.offsetHeight)
     other.scrollTop = percentage * (other.scrollHeight - other.offsetHeight)
-    setTimeout(() => {
-      other.on('scroll', this.scrollSync)
+    scrollTimer = setTimeout(() => {
+      $(other).on('scroll', this.scrollSync)
     }, 200)
   },
 
   init() {
     menu.initMenu()
     $(() => {
-      const bodyDom = $('body')
-      const editorDom = $('#editor')
-      const divs = $('#editor, #preview')
-      // File type associations
+      // file associations
       if (gui.App.argv.length > 0) {
         // fix path, cut 'file://'
-        const path = gui.App.argv[0].substr(7)
+        const path = decodeURI(gui.App.argv[0].substr(7)) // decodeURI for Chinese
         editor.loadFile(path)
       }
-
-      // reset drag
-      $(window).on('dragover', e => {
-        e.preventDefault()
-        // e.originalEvent.dataTransfer.dropEffect = 'none'
+      // if app is open, trigger loadFile
+      gui.App.on('open', path => {
+        window.focus()
+        path = decodeURI(path.substr(7))
+        if (~path.indexOf('.md')) {
+          editor.loadFile(path)
+        }
       })
-      $(window).on('drop', e => {
+      // reset drop && dragover
+      $(document).on('drop dragover', e => {
         e.preventDefault()
+        e = e.originalEvent
+        if (!e.dataTransfer.files.length) return
+
+        const path = e.dataTransfer.files[0].path
+        if (!fs.statSync(path).isDirectory() && ~path.indexOf('.md')) { // open md file only
+          editor.loadFile(path)
+        }
       })
 
-      // bind
-      editorDom.bind('input', () => {
+      // bind events
+      $('#editor').bind('input propertychange', () => {
         editor.reload()
       })
-      bodyDom.on('click', 'a', e => {
+      $('body').on('click', 'a', e => {
         e.preventDefault()
         editor.openUrl(e.target.href)
       })
-
-      // scroll sync
-      divs.on('scroll', this.scrollSync)
+      // scroll
+      $('#editor, #preview').on('scroll', this.scrollSync)
 
       // tabOverride
       tabOverride.tabSize(4).set(document.getElementById('editor'))
