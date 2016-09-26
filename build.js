@@ -10,6 +10,7 @@ const nw = new NwBuilder({
   files: [
     './package.json',
     './*.html',
+    './images/**',
     './dist/*',
     './vendors/*',
     '!/node_modules/**',
