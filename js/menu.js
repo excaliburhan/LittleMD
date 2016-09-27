@@ -91,7 +91,7 @@ module.exports = {
           console.log(err2)
         }
         result.toFile(filename, () => {
-          // $('.test').text('导出成功')
+          console.log('导出成功')
         })
       })
     })

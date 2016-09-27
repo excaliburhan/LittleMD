@@ -6,9 +6,6 @@
  */
 
 const main = require('./js/main.js')
-// require('../css/highlight/default.css')
-// require('../css/index.css')
-// require('../css/preview.css')
 
 // debug
 // const gui = require('nw.gui')

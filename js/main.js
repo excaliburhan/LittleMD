@@ -104,7 +104,6 @@ module.exports = {
             })
           }, err => {
             console.log(err)
-            // $('.test').text(err)
           })
         })
       })
