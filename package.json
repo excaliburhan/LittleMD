@@ -4,11 +4,6 @@
   "version": "0.0.1",
   "description": "a markdown app via nwjs",
   "scripts": {
-    "clean": "rimraf dist",
-    "dev": "node devServer.js",
-    "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
-    "build:test": "npm run clean && npm run build:webpack && sh run.sh",
-    "build": "npm run clean && npm run build:webpack",
     "pack": "rimraf build && node build.js"
   },
   "keywords": [
@@ -28,39 +23,27 @@
     "plugin": true
   },
   "devDependencies": {
-    "autoprefixer": "^6.4.1",
-    "babel-core": "^6.14.0",
-    "babel-loader": "^6.2.5",
-    "babel-plugin-transform-runtime": "^6.15.0",
-    "babel-polyfill": "^6.13.0",
-    "babel-preset-es2015": "^6.14.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "babel-runtime": "^6.11.6",
-    "cross-env": "^2.0.1",
     "eslint": "^3.4.0",
     "eslint-config-airbnb": "^10.0.1",
     "eslint-plugin-html": "^1.5.2",
     "eslint-plugin-import": "^1.14.0",
     "eslint-plugin-jsx-a11y": "^2.2.1",
     "eslint-plugin-react": "^6.2.0",
-    "extract-text-webpack-plugin": "^1.0.1",
-    "koa": "^1.2.2",
-    "koa-webpack-dev": "^1.0.5",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-concat": "^2.6.0",
     "nw-builder": "^3.1.0",
-    "precss": "^1.4.0",
-    "rimraf": "^2.5.4",
-    "webpack": "^1.13.2",
-    "webpack-dev-middleware": "^1.6.1",
-    "webpack-dev-server": "^1.15.1",
-    "webpack-hot-middleware": "^2.12.2"
+    "rimraf": "^2.5.4"
   },
   "dependencies": {
     "emojify.js": "^1.1.0",
+    "gulp-less": "^3.1.0",
     "highlight.js": "^9.7.0",
     "jquery": "^3.1.0",
     "marked": "^0.3.6",
     "phantom-html2pdf": "^3.0.0",
     "phantomjs-prebuilt": "^2.1.12",
+    "qiniu": "^6.1.11",
     "taboverride": "^4.0.3"
   }
 }
