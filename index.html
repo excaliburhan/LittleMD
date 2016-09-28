@@ -30,4 +30,14 @@
   <input style='display: none;' id='htmlFile' type='file' nwsaveas="LittleMD.html" />
 </body>
 <script src='/app.js'></script>
+<script src='/node_modules/nw-dev/lib/dev.js'></script>
+<script>
+const path = './'
+const fs = require('fs')
+
+fs.watch(path, () => {
+  if (location) location.reload()
+})
+fs.watch(path, { recursive: true })
+</script>
 </html>
