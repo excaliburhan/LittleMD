@@ -8,13 +8,12 @@
 const fs = require('fs')
 const pdf = require('phantom-html2pdf')
 const editor = require('./editor.js')
+const vars = require('./vars.js')
 const i18n = require('./i18n.js')
+
 const lang = navigator.language || 'en-US'
 const langFileMenu = i18n[lang].fileMenu
-
 const $ = global.$
-let isSaved = false // tag file status
-let currentFilePath = null // current filepath
 const htmlTmpPath = './htmlTmp.html'
 let htmlTmpData = null
 const pdfTmpPath = './pdfTmp.html'
@@ -35,29 +34,30 @@ fs.readFile(pdfTmpPath, 'utf8', (err, data) => {
 })
 
 module.exports = {
+  isSaved: false,
   // func
   newFile() {
     editor.setTitle('LittleMD.md')
     editor.loadText('')
-    isSaved = true
-    currentFilePath = null
+    vars.isSaved = false
+    vars.currentFilePath = null
   },
   openFile() {
     editor.chooseFile('#openFile', filename => {
       editor.loadFile(filename)
-      isSaved = true
-      currentFilePath = filename
+      vars.isSaved = true
+      vars.currentFilePath = filename
     })
   },
   saveFile(forceSaveAs) {
     const editorDom = $('#editor')
-    if (isSaved && !forceSaveAs) { // do save
-      fs.writeFile(currentFilePath, editorDom.val(), err => {
+    if (vars.isSaved && !forceSaveAs) { // do save
+      fs.writeFile(vars.currentFilePath, editorDom.val(), err => {
         if (err) {
           console.log(err)
-          isSaved = false // err might be file deleted
+          vars.isSaved = false // err might be file deleted
         } else {
-          isSaved = true
+          vars.isSaved = true
         }
       })
     } else { // do saveAs
@@ -67,8 +67,8 @@ module.exports = {
             console.log(err)
           } else {
             editor.setTitle(filename)
-            isSaved = true
-            currentFilePath = filename
+            vars.isSaved = true
+            vars.currentFilePath = filename
           }
         })
       })

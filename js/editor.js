@@ -7,6 +7,7 @@
 
 const marked = require('marked')
 const emojify = require('emojify.js')
+const vars = require('./vars.js')
 
 const $ = global.$
 const hljs = global.hljs
@@ -65,6 +66,7 @@ module.exports = {
   loadText(text) {
     const editorDom = $('#editor')
     editorDom.val(text)
+    this.checkLine()
     this.reload()
   },
   loadFile(file) {
@@ -73,6 +75,8 @@ module.exports = {
       if (err) {
         console.log(err)
       }
+      vars.isSaved = true
+      vars.currentFilePath = file
       this.setTitle(file)
       this.loadText(data)
     })
