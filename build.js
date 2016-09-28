@@ -11,6 +11,7 @@ const nw = new NwBuilder({
     './package.json',
     './app.js',
     './*.html',
+    './*.md',
     './js/**',
     './css/**',
     './images/**',
@@ -22,7 +23,7 @@ const nw = new NwBuilder({
   // platforms: ['osx64', 'win', 'linux'],
   macIcns: './app.icns',
   flavor: 'normal',
-  // version: 'v0.12.2',
+  version: '0.17.4',
 })
 
 nw.on('log', console.log)
