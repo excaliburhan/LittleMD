@@ -24,7 +24,8 @@ module.exports = {
     other.scrollTop = percentage * (other.scrollHeight - other.offsetHeight)
     scrollTimer = setTimeout(() => {
       $(other).on('scroll', this.scrollSync)
-    }, 200)
+      editor.checkLine() // line display
+    }, 100)
   },
 
   init() {
@@ -57,7 +58,11 @@ module.exports = {
         }
       })
       $('#editor').bind('input propertychange', () => { // reload
+        editor.checkLine()
         editor.reload()
+      })
+      $('#editor').on('keydown keyup', () => { // reload
+        editor.checkLine()
       })
       $('body').on('click', 'a', e => { // open url in browser
         e.preventDefault()

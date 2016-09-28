@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "description": "a markdown app via nwjs",
   "scripts": {
+    "style": "gulp minifyCss",
     "pack": "rimraf build && node build.js"
   },
   "keywords": [
