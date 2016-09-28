@@ -14,7 +14,6 @@
   </script>
 </head>
 <body>
-  <!-- <div class="test"></div> -->
   <div id="ruler"></div>
   <div id='body'>
     <div id='line'>
@@ -34,7 +33,6 @@
 <script>
 const path = './'
 const fs = require('fs')
-
 fs.watch(path, () => {
   if (location) location.reload()
 })

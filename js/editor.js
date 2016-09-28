@@ -11,7 +11,6 @@ const vars = require('./vars.js')
 
 const $ = global.$
 const hljs = global.hljs
-// let lines = 1 // dafault num of lines
 
 module.exports = {
   // func
