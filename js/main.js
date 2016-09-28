@@ -10,6 +10,7 @@ const tabOverride = require('tabOverride')
 const editor = require('./editor.js')
 const menu = require('./menu.js')
 const qiniuUtil = require('./qiniuUtil.js')
+const system = require('../system.json')
 
 const $ = global.$
 let scrollTimer = null
@@ -31,6 +32,10 @@ module.exports = {
   init() {
     menu.initMenu()
     $(() => {
+      // load last open file
+      if (system.lastFile) {
+        editor.loadFile(system.lastFile)
+      }
       // file associations
       if (global.gui.App.argv.length > 0) {
         // fix path, cut 'file://'

@@ -8,6 +8,7 @@
 const marked = require('marked')
 const emojify = require('emojify.js')
 const vars = require('./vars.js')
+const system = require('../system.json')
 
 const $ = global.$
 const hljs = global.hljs
@@ -76,6 +77,12 @@ module.exports = {
       }
       vars.isSaved = true
       vars.currentFilePath = file
+      if (!global.debug) { // only chage file in bug mode
+        const obj = Object.assign({}, system, {
+          lastFile: file,
+        })
+        fs.writeFile('./system.json', JSON.stringify(obj))
+      }
       this.setTitle(file)
       this.loadText(data)
     })

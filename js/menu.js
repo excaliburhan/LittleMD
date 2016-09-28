@@ -10,6 +10,7 @@ const pdf = require('phantom-html2pdf')
 const editor = require('./editor.js')
 const vars = require('./vars.js')
 const i18n = require('./i18n.js')
+const system = require('../system.json')
 
 const lang = navigator.language || 'en-US'
 const langFileMenu = i18n[lang].fileMenu
@@ -41,6 +42,12 @@ module.exports = {
     editor.loadText('')
     vars.isSaved = false
     vars.currentFilePath = null
+    if (!global.debug) {
+      const obj = Object.assign({}, system, {
+        lastFile: null,
+      })
+      fs.writeFile('./system.json', JSON.stringify(obj))
+    }
   },
   openFile() {
     editor.chooseFile('#openFile', filename => {
@@ -69,6 +76,12 @@ module.exports = {
             editor.setTitle(filename)
             vars.isSaved = true
             vars.currentFilePath = filename
+            if (!global.debug) { // only chage file in bug mode
+              const obj = Object.assign({}, system, {
+                lastFile: filename,
+              })
+              fs.writeFile('./system.json', JSON.stringify(obj))
+            }
           }
         })
       })

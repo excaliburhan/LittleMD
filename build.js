@@ -9,6 +9,7 @@ const NwBuilder = require('nw-builder')
 const nw = new NwBuilder({
   files: [
     './package.json',
+    './system.json',
     './app.js',
     './*.html',
     './*.md',
