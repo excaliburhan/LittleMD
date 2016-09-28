@@ -45,6 +45,10 @@ module.exports = {
           editor.loadFile(path)
         }
       })
+      // resize window trigger
+      global.gui.Window.get().on('resize', () => {
+        editor.checkLine()
+      })
 
       // bind events
       $('body').on('drop dragover', e => { // drag to open file

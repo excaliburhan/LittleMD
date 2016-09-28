@@ -10,7 +10,7 @@ const emojify = require('emojify.js')
 
 const $ = global.$
 const hljs = global.hljs
-let lines = 1 // dafault num of lines
+// let lines = 1 // dafault num of lines
 
 module.exports = {
   // func
@@ -45,15 +45,18 @@ module.exports = {
   checkLine() {
     const lineDom = $('#line')
     const editorDom = $('#editor')
-    const liveLines = editorDom.val().split('\n').length
+    const rulerDom = $('#ruler')
+    const liveArr = editorDom.val().split('\n')
+    const liveLines = liveArr.length
     let tpl = ''
-    if (liveLines !== lines) {
-      for (let i = 0; i < liveLines; i++) {
-        tpl += `<div class="line-${i + 1}">${i + 1}</div>`
-      }
-      lineDom.html(tpl)
-      lines = liveLines
+    for (let i = 0; i < liveLines; i++) {
+      rulerDom.text(liveArr[i])
+      let h = Math.ceil(rulerDom.width() / editorDom.width()) * 20
+      if (h < 20) h = 20
+      tpl += `<div class="line-${i + 1}" style="height:${h}px;">${i + 1}</div>`
     }
+    lineDom.html(tpl)
+    // lines = liveLines
     lineDom.css({
       marginTop: `-${editorDom.scrollTop()}px`,
     })
