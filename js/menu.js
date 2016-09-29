@@ -152,13 +152,13 @@ module.exports = {
     })
 
     winMenu.append(new global.gui.MenuItem({
-      label: langConf.fileMenu.minLabel,
+      label: langConf.winMenu.minLabel,
       click: this.minimize,
       modifiers: 'cmd',
       key: 'm',
     }))
     winMenu.append(new global.gui.MenuItem({
-      label: langConf.fileMenu.maxLabel,
+      label: langConf.winMenu.maxLabel,
       click: this.maximize,
       modifiers: 'cmd+shift',
       key: 'm',
@@ -167,7 +167,7 @@ module.exports = {
       type: 'separator',
     }))
     winMenu.append(new global.gui.MenuItem({
-      label: langConf.fileMenu.closeLabel,
+      label: langConf.winMenu.closeLabel,
       click: this.close,
       modifiers: 'cmd',
       key: 'w',
