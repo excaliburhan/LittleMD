@@ -33,7 +33,7 @@ module.exports = {
     menu.initMenu()
     $(() => {
       // load last open file
-      if (system.lastFile) {
+      if (system.lastFile && fs.existsSync(system.lastFile)) {
         editor.loadFile(system.lastFile)
       }
       // file associations
