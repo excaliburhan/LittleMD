@@ -61,7 +61,7 @@ module.exports = {
         } else {
           vars.isSaved = true
           vars.currentContent = editorDom.val()
-          util.showToast(langConf.saveToast)
+          // util.showToast(langConf.saveToast)
         }
       })
     } else { // do saveAs
