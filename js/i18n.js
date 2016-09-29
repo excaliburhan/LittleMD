@@ -26,6 +26,8 @@ module.exports = {
     closeConfirm: {
       title: 'Tips',
       content: 'File has changed, do you want to save it?',
+      noBtn: 'Cancel',
+      yesBtn: 'Save',
     },
     exportPdfToast: 'success export pdf!',
   },
@@ -49,6 +51,8 @@ module.exports = {
     closeConfirm: {
       title: '提示',
       content: '文件已经修改，确认保存吗？',
+      noBtn: '取消',
+      yesBtn: '确定',
     },
     exportPdfToast: '导出PDF成功!',
   },

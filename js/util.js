@@ -8,6 +8,10 @@
 const path = require('path')
 const fs = require('fs')
 const system = require('../system.json')
+const i18n = require('./i18n.js')
+
+const lang = navigator.language || 'en-US'
+const langConf = i18n[lang]
 
 module.exports = {
   // set system.json
@@ -31,6 +35,7 @@ module.exports = {
   },
   // show confirm
   showConfirm(title, content, successCbk, cancelCbk) {
+    const confirm = langConf.closeConfirm
     const dialog = $('#dialog')
     cancelCbk || (cancelCbk = this.closeDialog)
     const tpl =
@@ -38,8 +43,8 @@ module.exports = {
         `<div class="confirmTitle">${title}</div>` +
         `<div class="confirmContent">${content}</div>` +
         '<div class="confirmBtns">' +
-          '<button class="confirmNo">取消</button>' +
-          '<button class="confirmYes">确定</button>' +
+          `<button class="confirmNo">${confirm.noBtn}</button>` +
+          `<button class="confirmYes">${confirm.yesBtn}</button>` +
       '</div>'
     dialog.html(tpl).addClass('show')
     dialog.find('.confirmYes').on('click', successCbk)
