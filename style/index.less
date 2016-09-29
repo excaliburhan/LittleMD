@@ -58,6 +58,29 @@ body {
   white-space: nowrap;
 }
 
+#toast {
+  z-index: -1;
+  display: inline-block;
+  box-sizing: border-box;
+  overflow: hidden;
+  backface-visibility: hidden;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  min-width: 200px;
+  padding: 8px 16px;
+  color: #fff;
+  background-color: #50bfff;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity .3s;
+  &.show {
+    z-index: 1;
+    opacity: 1;
+  }
+}
+
 #dialog {
   display: none;
   position: fixed;
@@ -70,21 +93,6 @@ body {
     display: block;
   }
 
-  .toast {
-    display: inline-block;
-    box-sizing: border-box;
-    overflow: hidden;
-    backface-visibility: hidden;
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translate3d(-50%, 0, 0);
-    min-width: 300px;
-    padding: 8px 16px;
-    color: #fff;
-    background-color: #50bfff;
-    border-radius: 4px;
-  }
   .confirm {
     overflow: hidden;
     backface-visibility: hidden;

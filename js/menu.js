@@ -61,6 +61,7 @@ module.exports = {
         } else {
           vars.isSaved = true
           vars.currentContent = editorDom.val()
+          util.showToast(langConf.saveToast)
         }
       })
     } else { // do saveAs
@@ -76,6 +77,7 @@ module.exports = {
             util.setSystem({
               lastFile: filename,
             })
+            // util.showToast(langConf.saveToast)
           }
         })
       })
@@ -98,7 +100,7 @@ module.exports = {
           console.log(err2)
         }
         result.toFile(filename, () => {
-          util.toast(langConf.exportPdfToast)
+          util.showToast(langConf.exportToast)
         })
       })
     })
@@ -115,6 +117,7 @@ module.exports = {
         if (err) {
           console.log(err)
         }
+        util.showToast(langConf.exportToast)
       })
     })
   },

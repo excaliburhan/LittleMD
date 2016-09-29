@@ -29,7 +29,8 @@ module.exports = {
       noBtn: 'Cancel',
       yesBtn: 'Save',
     },
-    exportPdfToast: 'success export pdf!',
+    saveToast: 'save success!',
+    exportToast: 'export success!',
   },
   'zh-CN': {
     winMenu: {
@@ -54,6 +55,7 @@ module.exports = {
       noBtn: '取消',
       yesBtn: '确定',
     },
-    exportPdfToast: '导出PDF成功!',
+    saveToast: '保存成功！',
+    exportToast: '导出成功！',
   },
 }

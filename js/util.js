@@ -28,10 +28,11 @@ module.exports = {
   showToast(text) {
     let timer = null
     timer && (timer = null)
-    const dialog = $('#dialog')
-    const tpl = `<div class="toast">${text}</div>`
-    dialog.html(tpl).addClass('show')
-    timer = setTimeout(this.closeDialog, 2000)
+    const toast = $('#toast')
+    toast.text(text).addClass('show')
+    timer = setTimeout(() => {
+      $('#toast').removeClass('show')
+    }, 1500)
   },
   // show confirm
   showConfirm(title, content, successCbk, cancelCbk) {

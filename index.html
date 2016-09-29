@@ -14,7 +14,7 @@
   </script>
 </head>
 <body>
-  <div class="test"></div>
+  <!-- <div class="test"></div> -->
   <div id="ruler"></div>
   <div id='body'>
     <div id='line'>
@@ -23,6 +23,7 @@
     <textarea id='editor'></textarea>
     <div id='preview' class='preview'></div>
   </div>
+  <div id='toast'></div>
   <div id='dialog'></div>
   <input style='display: none;' id='openFile' type='file' />
   <input style='display: none;' id='uploadFile' type='file' />
@@ -31,14 +32,13 @@
   <input style='display: none;' id='htmlFile' type='file' nwsaveas="LittleMD.html" />
 </body>
 <script src='/app.js'></script>
-<script src='/node_modules/nw-dev/lib/dev.js' data-ignore='*.json|*.md'></script>
+<!-- <script src='/node_modules/nw-dev/lib/dev.js' data-ignore='*.json|*.md'></script>
 <script>
-global.debug = true
 const path = './'
 const fs = require('fs')
 fs.watch(path, () => {
   if (location) location.reload()
 })
 fs.watch(path, { recursive: true })
-</script>
+</script> -->
 </html>
