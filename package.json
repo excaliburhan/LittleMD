@@ -5,6 +5,8 @@
   "description": "a markdown app via nwjs",
   "scripts": {
     "style": "gulp style",
+    "clean": "rimraf build",
+    "deploy": "node build.js",
     "pack": "rimraf build && node build.js"
   },
   "keywords": [
