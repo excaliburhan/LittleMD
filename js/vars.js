@@ -6,6 +6,7 @@
  */
 
 module.exports = {
-  isSaved: false,
-  currentFilePath: null,
+  currentContent: '', // tag file content
+  isSaved: false, // watch file if saved
+  currentFilePath: null, // current editting file
 }

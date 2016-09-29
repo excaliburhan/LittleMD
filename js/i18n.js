@@ -7,6 +7,12 @@
 
 module.exports = {
   'en-US': {
+    winMenu: {
+      winLabel: 'Window',
+      minLabel: 'Minimize',
+      maxLabel: 'Maximize',
+      closeLabel: 'Close',
+    },
     fileMenu: {
       fileLabel: 'File',
       newLabel: 'New File',
@@ -17,8 +23,19 @@ module.exports = {
       exportPDFLabel: 'Export to PDF',
       exportHTMLLabel: 'Export to HTML',
     },
+    closeConfirm: {
+      title: 'Tips',
+      content: 'File has changed, do you want to save it?',
+    },
+    exportPdfToast: 'success export pdf!',
   },
   'zh-CN': {
+    winMenu: {
+      winLabel: '窗口',
+      minLabel: '最小化',
+      maxLabel: '最大化',
+      closeLabel: '关闭',
+    },
     fileMenu: {
       fileLabel: '文件',
       newLabel: '新建文件',
@@ -29,5 +46,10 @@ module.exports = {
       exportPDFLabel: '导出为PDF',
       exportHTMLLabel: '导出为HTML',
     },
+    closeConfirm: {
+      title: '提示',
+      content: '文件已经修改，确认保存吗？',
+    },
+    exportPdfToast: '导出PDF成功!',
   },
 }

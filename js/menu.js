@@ -10,10 +10,10 @@ const pdf = require('phantom-html2pdf')
 const editor = require('./editor.js')
 const vars = require('./vars.js')
 const i18n = require('./i18n.js')
-const system = require('../system.json')
+const util = require('./util.js')
 
 const lang = navigator.language || 'en-US'
-const langFileMenu = i18n[lang].fileMenu
+const langConf = i18n[lang]
 const $ = global.$
 const htmlTmpPath = './htmlTmp.html'
 let htmlTmpData = null
@@ -35,25 +35,19 @@ fs.readFile(pdfTmpPath, 'utf8', (err, data) => {
 })
 
 module.exports = {
-  isSaved: false,
   // func
   newFile() {
     editor.setTitle('LittleMD.md')
     editor.loadText('')
     vars.isSaved = false
     vars.currentFilePath = null
-    if (!global.debug) {
-      const obj = Object.assign({}, system, {
-        lastFile: null,
-      })
-      fs.writeFile('./system.json', JSON.stringify(obj))
-    }
+    util.setSystem({
+      lastFile: null,
+    })
   },
   openFile() {
     editor.chooseFile('#openFile', filename => {
       editor.loadFile(filename)
-      vars.isSaved = true
-      vars.currentFilePath = filename
     })
   },
   saveFile(forceSaveAs) {
@@ -63,8 +57,10 @@ module.exports = {
         if (err) {
           console.log(err)
           vars.isSaved = false // err might be file deleted
+          vars.currentFilePath = null
         } else {
           vars.isSaved = true
+          vars.currentContent = editorDom.val()
         }
       })
     } else { // do saveAs
@@ -76,12 +72,10 @@ module.exports = {
             editor.setTitle(filename)
             vars.isSaved = true
             vars.currentFilePath = filename
-            if (!global.debug) { // only chage file in bug mode
-              const obj = Object.assign({}, system, {
-                lastFile: filename,
-              })
-              fs.writeFile('./system.json', JSON.stringify(obj))
-            }
+            vars.currentContent = editorDom.val()
+            util.setSystem({
+              lastFile: filename,
+            })
           }
         })
       })
@@ -104,7 +98,7 @@ module.exports = {
           console.log(err2)
         }
         result.toFile(filename, () => {
-          console.log('导出成功')
+          util.toast(langConf.exportPdfToast)
         })
       })
     })
@@ -124,37 +118,84 @@ module.exports = {
       })
     })
   },
-  quit() {
-    global.gui.App.quit()
+  minimize() {
+    const win = global.gui.Window.get()
+    win.minimize()
+  },
+  maximize() {
+    const win = global.gui.Window.get()
+    win.maximize()
+  },
+  close() {
+    const nowContent = $('#editor').val()
+    if (nowContent !== vars.currentContent) {
+      const confirm = langConf.closeConfirm
+      util.showConfirm(confirm.title, confirm.content, () => {
+        module.exports.saveFile()
+        global.gui.App.quit()
+      })
+    } else {
+      global.gui.App.quit()
+    }
   },
 
   // init menu
   initMenu() {
     const win = global.gui.Window.get()
     const menubar = new global.gui.Menu({ type: 'menubar' })
+    const winMenu = new global.gui.Menu()
     const fileMenu = new global.gui.Menu()
 
-    menubar.createMacBuiltin('LittleMD') // for Mac
+    // for Mac
+    menubar.createMacBuiltin('LittleMD', {
+      hideWindow: true,
+    })
+
+    winMenu.append(new global.gui.MenuItem({
+      label: langConf.fileMenu.minLabel,
+      click: this.minimize,
+      modifiers: 'cmd',
+      key: 'm',
+    }))
+    winMenu.append(new global.gui.MenuItem({
+      label: langConf.fileMenu.maxLabel,
+      click: this.maximize,
+      modifiers: 'cmd+shift',
+      key: 'm',
+    }))
+    winMenu.append(new global.gui.MenuItem({
+      type: 'separator',
+    }))
+    winMenu.append(new global.gui.MenuItem({
+      label: langConf.fileMenu.closeLabel,
+      click: this.close,
+      modifiers: 'cmd',
+      key: 'w',
+    }))
+
     fileMenu.append(new global.gui.MenuItem({
-      label: langFileMenu.newLabel,
+      label: langConf.fileMenu.newLabel,
       click: this.newFile,
       modifiers: 'cmd',
       key: 'n',
     }))
     fileMenu.append(new global.gui.MenuItem({
-      label: langFileMenu.openLabel,
+      label: langConf.fileMenu.openLabel,
       click: this.openFile,
       modifiers: 'cmd',
       key: 'o',
     }))
     fileMenu.append(new global.gui.MenuItem({
-      label: langFileMenu.saveLabel,
+      type: 'separator',
+    }))
+    fileMenu.append(new global.gui.MenuItem({
+      label: langConf.fileMenu.saveLabel,
       click: this.saveFile,
       modifiers: 'cmd',
       key: 's',
     }))
     fileMenu.append(new global.gui.MenuItem({
-      label: langFileMenu.saveAsLabel,
+      label: langConf.fileMenu.saveAsLabel,
       click: () => {
         this.saveFile(true)
       },
@@ -162,25 +203,26 @@ module.exports = {
       key: 's',
     }))
     fileMenu.append(new global.gui.MenuItem({
-      label: langFileMenu.exportPDFLabel,
+      type: 'separator',
+    }))
+    fileMenu.append(new global.gui.MenuItem({
+      label: langConf.fileMenu.exportPDFLabel,
       click: this.exportPDF,
       modifiers: 'cmd',
       key: 'e',
     }))
     fileMenu.append(new global.gui.MenuItem({
-      label: langFileMenu.exportHTMLLabel,
+      label: langConf.fileMenu.exportHTMLLabel,
       click: this.exportHTMl,
       modifiers: 'cmd+shift',
       key: 'e',
     }))
-    // fileMenu.append(new global.gui.MenuItem({
-    //   label: langFileMenu.quitLabel,
-    //   click: this.quit,
-    //   modifiers: 'cmd',
-    //   key: 'q',
-    // }))
     menubar.append(new global.gui.MenuItem({
-      label: langFileMenu.fileLabel,
+      label: langConf.winMenu.winLabel,
+      submenu: winMenu,
+    }))
+    menubar.append(new global.gui.MenuItem({
+      label: langConf.fileMenu.fileLabel,
       submenu: fileMenu,
     }))
     win.menu = menubar

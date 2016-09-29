@@ -43,14 +43,12 @@ body {
   outline: none;
   border: none;
 }
-
 #preview {
   box-sizing: border-box;
   flex: 1;
   padding: 0 10px;
   overflow-y: scroll;
 }
-
 #ruler {
   visibility: hidden;
   position: fixed;
@@ -58,4 +56,87 @@ body {
   display: inline-block;
   padding: 0 5px;
   white-space: nowrap;
+}
+
+#dialog {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  &.show {
+    display: block;
+  }
+
+  .toast {
+    display: inline-block;
+    box-sizing: border-box;
+    overflow: hidden;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+    min-width: 300px;
+    padding: 8px 16px;
+    color: #fff;
+    background-color: #50bfff;
+    border-radius: 4px;
+  }
+  .confirm {
+    overflow: hidden;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -100%, 0);
+    background-color: #fff;
+    width: 420px;
+    border-radius: 3px;
+    .confirmTitle {
+      padding: 20px 20px 0;
+      margin-bottom: 0;
+      font-size: 16px;
+      font-weight: 700;
+      height: 18px;
+      color: #333;
+    }
+    .confirmContent {
+      padding: 30px 20px;
+      color: #475669;
+      font-size: 14px;
+    }
+    .confirmBtns {
+      padding: 10px 20px 15px;
+      text-align: right;
+      button {
+        display: inline-block;
+        line-height: 1;
+        white-space: nowrap;
+        cursor: pointer;
+        background: #fff;
+        border: 1px solid #c0ccda;
+        color: #1f2d3d;
+        -webkit-appearance: none;
+        text-align: center;
+        box-sizing: border-box;
+        outline: none;
+        margin: 0;
+        -webkit-user-select: none;
+        padding: 10px 15px;
+        font-size: 14px;
+        border-radius: 4px;
+        &:nth-child(2) {
+          margin-left: 10px;
+        }
+        &.confirmYes {
+          color: #fff;
+          background-color: #20a0ff;
+          border-color: #20a0ff;
+        }
+      }
+    }
+  }
 }

@@ -26,7 +26,7 @@ module.exports = {
     scrollTimer = setTimeout(() => {
       $(other).on('scroll', this.scrollSync)
       editor.checkLine() // line display
-    }, 100)
+    }, 150)
   },
 
   init() {
@@ -72,6 +72,9 @@ module.exports = {
       })
       $('#editor').on('keydown keyup', () => { // reload
         editor.checkLine()
+      })
+      $('#dialog').on('click', () => {
+        $('#dialog').removeClass('show')
       })
       $('body').on('click', 'a', e => { // open url in browser
         e.preventDefault()

@@ -10,13 +10,23 @@ const gulpLess = require('gulp-less')
 const cleanCss = require('gulp-clean-css')
 const concat = require('gulp-concat')
 
-gulp.task('minifyCss', () => {
+const paths = {
+  js: './js/*.js',
+  style: './style/*.less',
+  images: './images/**',
+}
+
+gulp.task('style', () => {
   gulp
-    .src('./style/*.less')
+    .src(paths.style)
     .pipe(gulpLess())
     .pipe(concat('bundle.css'))
     .pipe(cleanCss())
     .pipe(gulp.dest('./css'))
 })
 
-gulp.task('default', ['minifyCss'])
+gulp.task('reload', () => {
+  gulp.watch(paths.style, ['style'])
+})
+
+gulp.task('default', ['reload'])

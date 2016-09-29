@@ -8,18 +8,17 @@
 const NwBuilder = require('nw-builder')
 const nw = new NwBuilder({
   files: [
-    './package.json',
-    './system.json',
     './app.js',
-    './*.html',
-    './*.md',
     './js/**',
     './css/**',
     './images/**',
-    './vendors/*',
+    './vendors/**',
     './node_modules/**',
-    '!/cache/**',
-  ], // path to nwapp files
+    './*.json',
+    './*.html',
+    '!./credits.html',
+    './*.md',
+  ],
   platforms: ['osx64'],
   // platforms: ['osx64', 'win', 'linux'],
   macIcns: './app.icns',

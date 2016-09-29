@@ -5,10 +5,11 @@
  * @ editor
  */
 
+const fs = require('fs')
 const marked = require('marked')
 const emojify = require('emojify.js')
 const vars = require('./vars.js')
-const system = require('../system.json')
+const util = require('./util.js')
 
 const $ = global.$
 const hljs = global.hljs
@@ -43,6 +44,7 @@ module.exports = {
     preview.html(marked(text))
     emojify.run(preview.get(0))
   },
+  // check line display
   checkLine() {
     const lineDom = $('#line')
     const editorDom = $('#editor')
@@ -68,23 +70,20 @@ module.exports = {
     editorDom.val(text)
     this.checkLine()
     this.reload()
+    vars.currentContent = text
   },
-  loadFile(file) {
-    const fs = require('fs')
-    fs.readFile(file, 'utf8', (err, data) => {
+  loadFile(filename) {
+    fs.readFile(filename, 'utf8', (err, data) => {
       if (err) {
         console.log(err)
       }
-      vars.isSaved = true
-      vars.currentFilePath = file
-      if (!global.debug) { // only chage file in bug mode
-        const obj = Object.assign({}, system, {
-          lastFile: file,
-        })
-        fs.writeFile('./system.json', JSON.stringify(obj))
-      }
-      this.setTitle(file)
+      this.setTitle(filename)
       this.loadText(data)
+      vars.isSaved = true
+      vars.currentFilePath = filename
+      util.setSystem({
+        lastFile: filename,
+      })
     })
   },
   chooseFile(selector, callback) { // save & export
