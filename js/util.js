@@ -5,21 +5,12 @@
  * @util
  */
 
-const path = require('path')
-const fs = require('fs')
-const system = require('../system.json')
 const i18n = require('./i18n.js')
 
 const lang = navigator.language || 'en-US'
 const langConf = i18n[lang]
 
 module.exports = {
-  // set system.json
-  setSystem(obj) {
-    const newObj = Object.assign({}, system, obj)
-    fs.writeFile(path.join(__dirname, './system.json'), JSON.stringify(newObj))
-  },
-
   // closeDialog
   closeDialog() {
     $('#dialog').removeClass('show')

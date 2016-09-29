@@ -10,7 +10,6 @@ const tabOverride = require('tabOverride')
 const editor = require('./editor.js')
 const menu = require('./menu.js')
 const qiniuUtil = require('./qiniuUtil.js')
-const system = require('../system.json')
 
 const $ = global.$
 let scrollTimer = null
@@ -24,7 +23,7 @@ module.exports = {
     const percentage = this.scrollTop / (this.scrollHeight - this.offsetHeight)
     other.scrollTop = percentage * (other.scrollHeight - other.offsetHeight)
     scrollTimer = setTimeout(() => {
-      $(other).on('scroll', this.scrollSync)
+      $(other).on('scroll', module.exports.scrollSync)
       editor.checkLine() // line display
     }, 150)
   },
@@ -32,21 +31,19 @@ module.exports = {
   init() {
     menu.initMenu()
     $(() => {
-      // load last open file
-      if (system.lastFile && fs.existsSync(system.lastFile)) {
-        editor.loadFile(system.lastFile)
-      }
       // file associations
       if (global.gui.App.argv.length > 0) {
         // fix path, cut 'file://'
         const path = decodeURI(global.gui.App.argv[0].substr(7)) // decodeURI for Chinese
-        editor.loadFile(path)
+        if (!fs.statSync(path).isDirectory() && ~path.indexOf('.md')) { // open md file only
+          editor.loadFile(path)
+        }
       }
       // if app is open, trigger loadFile
       global.gui.App.on('open', path => {
         window.focus()
         path = decodeURI(path.substr(7))
-        if (~path.indexOf('.md')) {
+        if (!fs.statSync(path).isDirectory() && ~path.indexOf('.md')) {
           editor.loadFile(path)
         }
       })

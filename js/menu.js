@@ -41,16 +41,13 @@ module.exports = {
     editor.loadText('')
     vars.isSaved = false
     vars.currentFilePath = null
-    util.setSystem({
-      lastFile: null,
-    })
   },
   openFile() {
     editor.chooseFile('#openFile', filename => {
       editor.loadFile(filename)
     })
   },
-  saveFile(forceSaveAs) {
+  saveFile(forceSaveAs, withQuit) {
     const editorDom = $('#editor')
     if (vars.isSaved && !forceSaveAs) { // do save
       fs.writeFile(vars.currentFilePath, editorDom.val(), err => {
@@ -61,7 +58,7 @@ module.exports = {
         } else {
           vars.isSaved = true
           vars.currentContent = editorDom.val()
-          // util.showToast(langConf.saveToast)
+          withQuit && global.gui.App.quit()
         }
       })
     } else { // do saveAs
@@ -74,10 +71,7 @@ module.exports = {
             vars.isSaved = true
             vars.currentFilePath = filename
             vars.currentContent = editorDom.val()
-            util.setSystem({
-              lastFile: filename,
-            })
-            // util.showToast(langConf.saveToast)
+            withQuit && global.gui.App.quit()
           }
         })
       })
@@ -134,8 +128,7 @@ module.exports = {
     if (nowContent !== vars.currentContent) {
       const confirm = langConf.closeConfirm
       util.showConfirm(confirm.title, confirm.content, () => {
-        module.exports.saveFile()
-        global.gui.App.quit()
+        module.exports.saveFile(null, true)
       })
     } else {
       global.gui.App.quit()
