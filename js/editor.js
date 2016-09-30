@@ -9,6 +9,7 @@ const fs = require('fs')
 const marked = require('marked')
 const emojify = require('emojify.js')
 const vars = require('./vars.js')
+const util = require('./util.js')
 
 const $ = global.$
 const hljs = global.hljs
@@ -96,6 +97,9 @@ module.exports = {
       this.loadText(data)
       vars.isSaved = true
       vars.currentFilePath = filename
+      util.setSystem({
+        lastFile: filename,
+      })
     })
   },
   chooseFile(selector, callback) { // save & export

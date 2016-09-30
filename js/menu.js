@@ -71,6 +71,9 @@ module.exports = {
             vars.isSaved = true
             vars.currentFilePath = filename
             vars.currentContent = editorDom.val()
+            util.setSystem({
+              lastFile: filename,
+            })
             withQuit && global.gui.App.quit()
           }
         })
