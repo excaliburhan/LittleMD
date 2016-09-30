@@ -1,7 +1,7 @@
 {
   "main": "index.html",
   "name": "LittleMD",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a markdown app via nwjs",
   "scripts": {
     "style": "gulp style",
