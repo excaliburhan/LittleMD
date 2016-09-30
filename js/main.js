@@ -45,16 +45,9 @@ module.exports = {
       // open lastFile
       if (system.lastFile) {
         try {
-          fs.statSync(system.lastFile, err => {
-            if (err) {
-              console.log(err)
-              util.setSystem({
-                lastFile: null,
-              })
-            } else if (~system.lastFile.indexOf('.md')) {
-              editor.loadFile(system.lastFile)
-            }
-          })
+          if (!fs.statSync(system.lastFile).isDirectory() && ~system.lastFile.indexOf('.md')) {
+            editor.loadFile(system.lastFile)
+          }
         } catch (ex) {
           console.log(ex)
           util.setSystem({
