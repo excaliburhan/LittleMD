@@ -5,9 +5,7 @@
   "description": "a markdown app via nwjs",
   "scripts": {
     "style": "gulp style",
-    "clean": "rimraf build",
-    "deploy": "node build.js",
-    "pack": "rimraf build && node build.js"
+    "build": "gulp build"
   },
   "keywords": [
     "nwjs",
@@ -26,6 +24,7 @@
     "plugin": true
   },
   "devDependencies": {
+    "del": "^2.2.2",
     "eslint": "^3.4.0",
     "eslint-config-airbnb": "^10.0.1",
     "eslint-plugin-html": "^1.5.2",
@@ -36,8 +35,7 @@
     "gulp-clean-css": "^2.0.13",
     "gulp-concat": "^2.6.0",
     "nw-builder": "^3.1.0",
-    "nw-dev": "^3.0.0",
-    "rimraf": "^2.5.4"
+    "nw-dev": "^3.0.0"
   },
   "dependencies": {
     "emojify.js": "^1.1.0",

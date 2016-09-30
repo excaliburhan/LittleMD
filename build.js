@@ -26,13 +26,17 @@ const nw = new NwBuilder({
   version: '0.17.4',
 })
 
-nw.on('log', console.log)
+module.exports = {
+  build() {
+    nw.on('log', console.log)
 
-// Build returns a promise
-nw.build()
-.then(() => {
-  console.log('all done!')
-})
-.catch(err => {
-  console.error(err)
-})
+    // Build returns a promise
+    nw.build()
+    .then(() => {
+      console.log('all done!')
+    })
+    .catch(err => {
+      console.error(err)
+    })
+  },
+}

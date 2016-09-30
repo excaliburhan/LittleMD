@@ -9,6 +9,8 @@ const gulp = require('gulp')
 const gulpLess = require('gulp-less')
 const cleanCss = require('gulp-clean-css')
 const concat = require('gulp-concat')
+const del = require('del')
+const nwBuild = require('./build.js')
 
 const paths = {
   js: './js/*.js',
@@ -27,6 +29,13 @@ gulp.task('style', () => {
 
 gulp.task('reload', () => {
   gulp.watch(paths.style, ['style'])
+})
+
+gulp.task('build', () => {
+  del('build/**')
+    .then(() => {
+      nwBuild.build()
+    })
 })
 
 gulp.task('default', ['reload'])

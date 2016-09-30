@@ -10,6 +10,7 @@ const tabOverride = require('tabOverride')
 const editor = require('./editor.js')
 const menu = require('./menu.js')
 const qiniuUtil = require('./qiniuUtil.js')
+const util = require('./util.js')
 const system = require('../system.json')
 
 const $ = global.$
@@ -42,11 +43,24 @@ module.exports = {
     menu.initMenu()
     $(() => {
       // open lastFile
-      if (
-        system.lastFile && !fs.statSync(system.lastFile).isDirectory() &&
-        ~system.lastFile.indexOf('.md')
-      ) {
-        editor.loadFile(system.lastFile)
+      if (system.lastFile) {
+        try {
+          fs.statSync(system.lastFile, err => {
+            if (err) {
+              console.log(err)
+              util.setSystem({
+                lastFile: null,
+              })
+            } else if (~system.lastFile.indexOf('.md')) {
+              editor.loadFile(system.lastFile)
+            }
+          })
+        } catch (ex) {
+          console.log(ex)
+          util.setSystem({
+            lastFile: null,
+          })
+        }
       }
       // file associations
       if (global.gui.App.argv.length > 0) {
