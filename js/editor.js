@@ -50,18 +50,34 @@ module.exports = {
     const rulerDom = $('#ruler')
     const liveArr = editorDom.val().split('\n')
     const liveLines = liveArr.length
+    const indexEnd = editorDom.get(0).selectionEnd
+    const activeLine = editorDom.val().substring(0, indexEnd).split('\n').length
     let tpl = ''
+    let style = ''
+    let cls = ''
+    let lineHeight = 0
+    let activeHeight = 20
     for (let i = 0; i < liveLines; i++) {
       rulerDom.text(liveArr[i])
       let h = Math.ceil(rulerDom.width() / editorDom.width()) * 20
       if (h < 20) h = 20
-      tpl += `<div class="line-${i + 1}" style="height:${h}px;">${i + 1}</div>`
+      if (i < activeLine) lineHeight += h
+      if (activeLine === i + 1) { // active line style
+        style = `height:${h}px;background-color:rgba(0, 0, 0, 0.5);`
+        activeHeight = h
+        cls = 'line-active'
+      } else {
+        style = `height:${h}px;`
+        cls = ''
+      }
+      tpl += `<div class="line-${i + 1} ${cls}" style="${style}">${i + 1}</div>`
     }
+    editorDom.css({
+      backgroundImage: 'linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0, rgba(0, 0, 0, 0.5) 100%)',
+      backgroundPositionY: `${lineHeight - activeHeight - editorDom.scrollTop()}px`,
+      backgroundSize: `100% ${activeHeight}px`,
+    })
     lineDom.html(tpl)
-    // lines = liveLines
-    // lineDom.css({
-    //   marginTop: `-${editorDom.scrollTop()}px`,
-    // })
   },
 
   loadText(text) {

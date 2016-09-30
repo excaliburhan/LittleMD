@@ -17,6 +17,12 @@ let scrollTimer = null
 module.exports = {
   // func
   scrollSync() {
+    $('#line .line-active').css({
+      background: 'none',
+    })
+    $('#editor').css({
+      backgroundImage: 'none',
+    })
     scrollTimer && clearTimeout(scrollTimer)
     const divs = $('#editor, #preview')
     const other = divs.not(this).off('scroll').get(0)
@@ -27,6 +33,7 @@ module.exports = {
     scrollTimer = setTimeout(() => {
       $(other).on('scroll', module.exports.scrollSync)
       $(line).on('scroll', module.exports.scrollSync)
+      editor.checkLine()
     }, 150)
   },
 
@@ -65,7 +72,7 @@ module.exports = {
           editor.loadFile(path)
         }
       })
-      $('#editor').bind('input propertychange', () => { // reload
+      $('#editor').bind('input click', () => { // reload
         editor.checkLine()
         editor.reload()
       })
