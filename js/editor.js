@@ -59,9 +59,9 @@ module.exports = {
     }
     lineDom.html(tpl)
     // lines = liveLines
-    lineDom.css({
-      marginTop: `-${editorDom.scrollTop()}px`,
-    })
+    // lineDom.css({
+    //   marginTop: `-${editorDom.scrollTop()}px`,
+    // })
   },
 
   loadText(text) {

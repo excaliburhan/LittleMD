@@ -32,6 +32,11 @@ body {
   color: #F9F9F5;
   text-align: right;
   background: #272727;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
 }
 #editor {
   box-sizing: border-box;
@@ -42,12 +47,18 @@ body {
   resize: none;
   outline: none;
   border: none;
+  &::-webkit-scrollbar {
+    background: transparent;
+  }
 }
 #preview {
   box-sizing: border-box;
   flex: 1;
   padding: 0 10px;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    background: transparent;
+  }
 }
 #ruler {
   visibility: hidden;

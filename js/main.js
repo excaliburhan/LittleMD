@@ -20,11 +20,13 @@ module.exports = {
     scrollTimer && clearTimeout(scrollTimer)
     const divs = $('#editor, #preview')
     const other = divs.not(this).off('scroll').get(0)
+    const line = $('#line').off('scroll').get(0)
     const percentage = this.scrollTop / (this.scrollHeight - this.offsetHeight)
     other.scrollTop = percentage * (other.scrollHeight - other.offsetHeight)
+    line.scrollTop = $('#editor').scrollTop()
     scrollTimer = setTimeout(() => {
       $(other).on('scroll', module.exports.scrollSync)
-      editor.checkLine() // line display
+      $(line).on('scroll', module.exports.scrollSync)
     }, 150)
   },
 
